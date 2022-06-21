@@ -6,9 +6,9 @@ class LightStats {
     public function getStats($start_time) {
         $end_time = microtime(true);
         $time_taken = $end_time - $start_time;
-        $memory_used = memory_get_peak_usage(true);
+        $memory_used = memory_get_usage();
         $memory_used = $memory_used / 1024 / 1024;
-        $memory_used = round($memory_used, 2);
+
         $php_version = phpversion();
         $server = $_SERVER['SERVER_SOFTWARE'];
 
