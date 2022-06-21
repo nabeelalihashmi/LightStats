@@ -22,6 +22,8 @@ Email: [mail2nabeelali@gmail.com](mailto:mail2nabeelali@gmail.com)
 * Size and Type info on hover.
 * Toggle Types
 
+![Fullscreen Nested](./docs/nested.png)
+
 
 
 ## Installtion
