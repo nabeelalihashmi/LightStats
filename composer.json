@@ -1,0 +1,19 @@
+{
+    "name": "nabeelalihashmi/lightstats",
+    "description": "Easy to use stats viewer and Debugger for PHP",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "IconicCodes\\LightStats\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nabeel Ali",
+            "email": "mail2nabeelali@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
