@@ -2,9 +2,10 @@
     <div id="ls__header">
         <span> LightStats Debug </span>
         <div class="ls__controls">
-            <span class="ls__control" id="ls__control__toggle"> ☰ </span>
-            <span class="ls__control" id="ls__control__max"> ☐ </span>
-            <span class="ls__control" id="ls__control__close"> &times; </span>
+            <span title="Toggle Types" class="ls__control" id="ls__types__toggle"> ⚙ </span>
+            <span title="Minimize" class="ls__control" id="ls__control__toggle"> ☰ </span>
+            <span title="FullScreen" class="ls__control" id="ls__control__max"> ☐ </span>
+            <span title="Close" class="ls__control" id="ls__control__close"> &times; </span>
         </div>
     </div>
     <div class="ls__separator"></div>
@@ -22,6 +23,15 @@
 </div>
 
 <style>
+    .ls__type__label {
+        background-color: #22222288;
+        color: white;
+        padding: 4px;
+        font-size: 10pt;
+        margin-top: 3px;
+        font-family: monospace;
+    }
+
     #ls__container {
         display: flex;
         flex-direction: column;
@@ -119,6 +129,19 @@
     var ls__control__close = document.getElementById('ls__control__close');
     var ls__body = document.getElementById('ls__body');
     var ls__table = document.getElementById('ls__table');
+
+    var ls__types__label = document.getElementById('ls__types__toggle');
+    // toggle .ls__type__label display
+    ls__types__label.addEventListener('click', function() {
+        var ls__types__label = document.getElementsByClassName('ls__type__label');
+        for (var i = 0; i < ls__types__label.length; i++) {
+            ls__types__label[i].style.display = (ls__types__label[i].style.display == 'none') ? 'block' : 'none';
+        }
+    });
+    
+
+
+
     ls__control__toggle.addEventListener('click', function() {
         ls__container.style.bottom = "10px;"
         ls__container.style.right = "10px;"
@@ -171,8 +194,6 @@
         ls__container.remove();
     });
 
-
-    // ls__container ressize on dragging top right corner
 
     var ls__container_resize = document.getElementById('ls__header');
     var ls__container_resize_x = 0;

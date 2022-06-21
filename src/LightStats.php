@@ -3,6 +3,10 @@
 namespace IconicCodes\LightStats;
 
 class LightStats {
+    private static $custom_print = [];
+    public static function ldump($key, $value) {
+        self::$custom_print[$key] = $value;
+    }
     public function getStats($start_time) {
         $end_time = microtime(true);
         $time_taken = $end_time - $start_time;
@@ -16,9 +20,9 @@ class LightStats {
         $classes_used_count_unique = array_unique($classes_used);
         $headers = getallheaders();
 
-        return [
+        return array_merge([
             'Time Taken' => $time_taken,
-            'Memory Used' => $memory_used . ' M',
+            'Memory Used' => $memory_used,
             'PHP Version' => $php_version,
             'Server' => $server,
             'Opcache' => ini_get('opcache.enabled') ? 'Enabled' : 'Disabled',
@@ -34,22 +38,39 @@ class LightStats {
             'Server' => $_SERVER,
             'Env' => $_ENV,
             'Globals' => $GLOBALS
-        ];
+        ], self::$custom_print);
     }
 
 
-    function showHtmlStatsBox($start_time) {
+    function objectToArrayAll() {
 
+    }
+    function inspect($start_time) {
         $stats = $this->getStats($start_time);
+        
+
+        if (isset($_REQUEST['DISABLE_LSTATS'])) {
+            echo json_encode($stats);
+            return;
+        }
+        
+
         $html = "";
         foreach ($stats as $key => $value) {
-            $html .= '<tr><td>' . $key . '</td><td>';
+            $html .= '<tr><td title="'. $this->extraInfo($stats[$key]) .'">'.  $key .
+            // '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>' .
+            '</td><td>';
+
             if (!is_array($value) && !is_object($value)) {
-                $html .= '<pre>' . $value . '</pre>';
+                $html .= '<pre title="'. $this->extraInfo($value) .  '">' . $value . 
+                '</pre>' .
+                '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($value)) . '</div>';
             } else {
 
-                $html .= '<div style="margin-left: 10px;"><details><summary>';
-                $html .= "$key </summary><p>";
+                $html .= '<div style="margin-left: 10px;"><details><summary title="' . $this->extraInfo($stats[$key]) . '">';
+                $html .= $key .
+                '</summary><p>';
+                $html .= '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>';
                 $html .= $this->getStatsAsDetailsTag($value);
                 $html .= '</p></details></div>';
             }
@@ -62,18 +83,22 @@ class LightStats {
     public function getStatsAsDetailsTag($stats) {
         $html = '<table>';
         foreach ($stats as $key => $value) {
-            $html .= '<tr><td>' . $key . '</td><td>';
+            $html .= '<tr><td title="' . $this->extraInfo($stats[$key]) . '">'.  $key . 
+            // '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>' .
+            '</td><td title="' . $this->extraInfo($stats[$key]) . '">';
 
             if (!is_array($value) && !is_object($value)) {
                 $html .= '<pre>' . $value . '</pre>';
+                $html .= '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($value)) . '</div>';
+
             } else {
-                // if value if empty then string Empty
                 if (empty($value)) {
                     $value = 'Empty';
                 } else {
 
-                    $html .= '<div style="margin-left: 10px;"><details><summary>';
+                    $html .= '<div style="margin-left: 10px;"><details><summary title="' . $this->extraInfo($stats[$key]) . '">';
                     $html .= " $key </summary><p>";
+                    $html .= '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>';
                     $html .= $this->getStatsAsDetailsTag($value);
                     $html .= '</p></details></div>';
                 }
@@ -84,4 +109,13 @@ class LightStats {
 
         return $html;
     }
+
+    public function extraInfo($variable) {
+        $extraInfo = 'Type: ' . gettype($variable) . "\n";
+        $extraInfo .= is_countable($variable) ? 'Size: ' . count($variable) : '';
+        $extraInfo .= is_string($variable) ? 'Length: ' . strlen($variable) : '';
+
+        return $extraInfo;
+    }
 }
+

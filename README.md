@@ -2,7 +2,7 @@
 
 # LightStats
 
-An easy to use request viewer, debugger for PHP.
+An easy to use request inspector, debugger for PHP.
 
 ![LightStats Screenshot](./docs/ls.png)
 
@@ -18,7 +18,11 @@ Email: [mail2nabeelali@gmail.com](mailto:mail2nabeelali@gmail.com)
 ## Features
 
 * Double click to copy the value of cell on clipboard.
-* Fullscreen view
+* Fullscreen view.
+* Size and Type info on hover.
+* Toggle Types
+
+
 
 ## Installtion
 
@@ -38,9 +42,17 @@ Create a new instance of `LightStats` class.
 $stats = new LightStats;
 ```
 
-At very end, call showHtmlStatsBox method/
+At very end, call inspect method/
 ```
-$stats->showHtmlStatsBox($start_time);
+$stats->inspect($start_time);
+```
+
+### Inspect own items
+
+LightStats provide static function `ldump`.
+
+```
+LightStats::ldump($key, $value);
 ```
 
 -------------------------
