@@ -18,7 +18,7 @@ class LightStats {
 
         return [
             'Time Taken' => $time_taken,
-            'Memory Used' => $memory_used . ' MB',
+            'Memory Used' => $memory_used . ' M',
             'PHP Version' => $php_version,
             'Server' => $server,
             'Opcache' => ini_get('opcache.enabled') ? 'Enabled' : 'Disabled',
