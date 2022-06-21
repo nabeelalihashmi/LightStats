@@ -1,0 +1,151 @@
+<div id="ls__container">
+    <div id="ls__header"><span>LightStats Debug</span>
+        <div class="ls__controls"><span title="Toggle Types" class="ls__control" id="ls__types__toggle">⚙ </span><span title="Minimize" class="ls__control" id="ls__control__toggle">☰ </span><span title="FullScreen" class="ls__control" id="ls__control__max">☐ </span><span title="Close" class="ls__control" id="ls__control__close">&times;</span></div>
+    </div>
+    <!-- <div class="ls__separator"></div> -->
+    <div id="ls__body">
+        <table id="ls__table"> <?php echo $html ?> </table>
+    </div>
+    <div id="ls__footer"><a href="https://iconiccodes.com">Written By Nabeel Ali | https://iconiccodes.com</a></div>
+</div>
+<style>
+    .ls__type__label {
+        background-color: #22222288;
+        color: #fff;
+        padding: 2px;
+        font-size: 0.8rem;
+        margin-top: 3px;
+        font-family: monospace
+    }
+
+    #ls__container * {
+        font-size: 0.9rem;
+    }
+    #ls__container {
+        display: flex;
+        flex-direction: column;
+        font-size: .8rem;
+        font-family: sans-serif;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 8px;
+        width: 400px;
+        height: 450px;
+        background-color: #39393999;
+        backdrop-filter: blur(4px);
+        padding: 10px;
+        box-shadow: 0 0 10px #000;
+        z-index: 99999;
+        min-height: 60px
+    }
+
+    #ls__container pre {
+        margin-bottom: 0;
+    }
+    .ls__control {
+        margin-left: 10px;
+        cursor: pointer
+    }
+
+    #ls__control__close {
+        font-size: 18px
+    }
+
+    .ls__controls {
+        margin-left: auto
+    }
+
+    #ls__body {
+        flex: 1;
+        overflow: auto;
+        background-color: #fff
+    }
+
+    .ls__separator {
+        height: 1px;
+        background-color: #ccc;
+        margin: 10px 0
+    }
+
+    #ls__header {
+        width: 100%;
+        display: flex;
+        text-shadow: 0 0 10px #000;
+        color: #fff;
+        align-items: center;
+        cursor: nwse-resize;
+        margin-bottom: 4px;
+    }
+
+    #ls__footer {
+        margin-top: 10px;
+        text-align: center
+    }
+
+    #ls__footer a {
+        color: #fff
+    }
+
+    #ls__container table {
+        border-collapse: collapse;
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-family: sans-serif;
+        background-color: #fff;
+        margin-bottom: 8px
+    }
+
+    #ls__table td {
+        /* padding: px 12px; */
+        border: 1px solid #ccc;
+        cursor: pointer;
+        vertical-align: top
+    }
+
+    #ls__table td:hover {
+        background-color: #888
+    }
+</style>
+<script>
+    var ls__container = document.getElementById("ls__container"),
+        ls__control__toggle = document.getElementById("ls__control__toggle"),
+        ls__control__max = document.getElementById("ls__control__max"),
+        ls__control__close = document.getElementById("ls__control__close"),
+        ls__body = document.getElementById("ls__body"),
+        ls__table = document.getElementById("ls__table"),
+        ls__types__label = document.getElementById("ls__types__toggle");
+    ls__types__label.addEventListener("click", function() {
+        for (var e = document.getElementsByClassName("ls__type__label"), t = 0; t < e.length; t++) e[t].style.display = "none" == e[t].style.display ? "block" : "none"
+    }), ls__control__toggle.addEventListener("click", function() {
+        ls__container.style.bottom = "10px;", ls__container.style.right = "10px;", document.fullscreenElement && document.exitFullscreen(), "none" == ls__body.style.display ? ls__body.style.display = "block" : (ls__body.style.display = "none", ls__container.style.height = "auto")
+    }), ls__control__max.addEventListener("click", function() {
+        ls__body.style.display = "block", ls__container.requestFullscreen ? document.fullscreenElement ? document.exitFullscreen() : ls__container.requestFullscreen() : ls__container.webkitRequestFullscreen ? document.webkitFullscreenElement ? document.webkitExitFullscreen() : ls__container.webkitRequestFullscreen() : ls__container.mozRequestFullScreen ? document.mozFullScreenElement ? document.mozCancelFullScreen() : ls__container.mozRequestFullScreen() : ls__container.msRequestFullscreen && (document.msFullscreenElement ? document.msExitFullscreen() : ls__container.msRequestFullscreen())
+    }), ls__control__close.addEventListener("click", function() {
+        ls__container.remove()
+    });
+    var ls__container_resize = document.getElementById("ls__header"),
+        ls__container_resize_x = 0,
+        ls__container_resize_y = 0,
+        ls__container_resize_width = 0,
+        ls__container_resize_height = 0;
+    ls__container_resize.addEventListener("mousedown", function(e) {
+        ls__container_resize_x = e.clientX, ls__container_resize_y = e.clientY, ls__container_resize_width = ls__container.offsetWidth, ls__container_resize_height = ls__container.offsetHeight
+    }), document.addEventListener("mousemove", function(e) {
+        if (ls__container_resize_x && ls__container_resize_y) {
+            var t = e.clientX - ls__container_resize_x,
+                n = e.clientY - ls__container_resize_y;
+            t *= -1, n *= -1, ls__container.style.width = ls__container_resize_width + t + "px", ls__container.style.height = ls__container_resize_height + n + "px", ls__body.style.display = "block"
+        }
+    }), document.addEventListener("mouseup", function(e) {
+        ls__container_resize_x = 0, ls__container_resize_y = 0, ls__container_resize_width = 0, ls__container_resize_height = 0
+    }), ls__table.addEventListener("dblclick", function(e) {
+        var t = e.target.innerText;
+        navigator.clipboard.writeText(t), console.log("Copied: ", t);
+        var n = document.createElement("div");
+        n.style.position = "absolute", n.style.top = e.clientY + "px", n.style.left = e.clientX + "px", n.style.backgroundColor = "#fff", n.style.padding = "5px", n.style.borderRadius = "5px", n.style.fontSize = "10pt", n.style.fontFamily = "sans-serif", n.style.color = "#fff", n.style.textAlign = "center", n.style.backgroundColor = "#000000aa", n.style.border = "1px solid #000", n.innerText = "Copied", n.style.zIndex = 199999, document.body.appendChild(n), setTimeout(function() {
+            document.body.removeChild(n)
+        }, 1e3)
+    })
+</script>

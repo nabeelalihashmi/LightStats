@@ -2,6 +2,8 @@
 
 namespace IconicCodes\LightStats;
 
+use Traversable;
+
 class LightStats {
     private static $custom_print = [];
     public static function ldump($key, $value) {
@@ -67,7 +69,7 @@ class LightStats {
                 '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($value)) . '</div>';
             } else {
 
-                $html .= '<div style="margin-left: 10px;"><details><summary title="' . $this->extraInfo($stats[$key]) . '">';
+                $html .= '<div style="margin-left: 3px;"><details><summary title="' . $this->extraInfo($stats[$key]) . '">';
                 $html .= $key .
                 '</summary><p>';
                 $html .= '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>';
@@ -77,6 +79,7 @@ class LightStats {
 
             $html .= '</td></tr>';
         }
+        
         include __DIR__ . "/view.min.php";
     }
 
@@ -95,12 +98,14 @@ class LightStats {
                 if (empty($value)) {
                     $value = 'Empty';
                 } else {
+                    if (is_array($value) || ($value instanceof Traversable)) {
+                        $html .= '<div style="margin-left: 3px;"><details><summary title="' . $this->extraInfo($stats[$key]) . '">';
+                        $html .= " $key </summary><p>";
+                        $html .= '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>';
+                        $html .= $this->getStatsAsDetailsTag($value);
+                        $html .= '</p></details></div>';
+                    }
 
-                    $html .= '<div style="margin-left: 10px;"><details><summary title="' . $this->extraInfo($stats[$key]) . '">';
-                    $html .= " $key </summary><p>";
-                    $html .= '<div class="ls__type__label">' . str_replace("\n", '<br>', $this->extraInfo($stats[$key])) . '</div>';
-                    $html .= $this->getStatsAsDetailsTag($value);
-                    $html .= '</p></details></div>';
                 }
             }
             $html .= '</td></tr>';
