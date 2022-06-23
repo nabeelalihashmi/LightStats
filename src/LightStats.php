@@ -23,10 +23,10 @@ class LightStats {
         $headers = getallheaders();
 
         return array_merge([
-            'Time Taken' => $time_taken,
-            'Memory Used' => $memory_used,
+            'Time' => $time_taken,
+            'Memory' => $memory_used,
             'PHP Version' => $php_version,
-            'Server' => $server,
+            'Software' => $server,
             'Opcache' => ini_get('opcache.enabled') ? 'Enabled' : 'Disabled',
             'Classes Used' => $classes_used_count_unique,
             'Headers' => $headers,
@@ -37,7 +37,6 @@ class LightStats {
             'POST' => $_POST,
             'Files' => $_FILES,
             'Request' => $_REQUEST,
-            'Server' => $_SERVER,
             'Env' => $_ENV,
             'Globals' => $GLOBALS
         ], self::$custom_print);
