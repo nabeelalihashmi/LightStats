@@ -80,7 +80,7 @@ class LightStats {
             $html .= '</td></tr>';
         }
         
-        include __DIR__ . "/view.min.php";
+        include __DIR__ . "/view.php";
     }
 
     public function getStatsAsDetailsTag($stats) {

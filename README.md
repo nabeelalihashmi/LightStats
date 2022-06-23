@@ -2,7 +2,7 @@
 
 # LightStats
 
-An easy to use request inspector, debugger for PHP.
+An easy to use request inspector, debugger for PHP with ability to search.
 
 ![LightStats Screenshot](./docs/ls.png)
 
@@ -21,8 +21,11 @@ Email: [mail2nabeelali@gmail.com](mailto:mail2nabeelali@gmail.com)
 * Fullscreen view.
 * Size and Type info on hover.
 * Toggle Types
+* Search
+* Change Transparency
 
 ![Fullscreen Nested](./docs/nested.png)
+![Fullscreen Nested](./docs/t.png)
 
 
 
